@@ -90,9 +90,9 @@ export default class MergeFiles {
    * @param directories ディレクトリのフォルダ名の配列
    * @returns 特定のフォルダが除外されたフォルダ名の配列
    */
-  private filterDirectories(directories: Array<string>) {
+  private filterDirectories(directories: Array<string>): Array<string> {
     return directories.filter((directory) => {
-      !this.index.ignore.includes(directory) && !directory.startsWith('.');
+      return !this.index.ignore.includes(directory) && !directory.startsWith('.');
     });
   }
 
