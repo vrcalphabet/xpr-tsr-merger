@@ -4,5 +4,8 @@
     "blockComment": ["%-", "-%"]
   },
   "brackets": [["{", "}"]],
-  "autoClosingPairs": [["{", "}"], ["[", "]"]]
+  "autoClosingPairs": [
+    ["{", "}"],
+    ["[", "]"]
+  ]
 }

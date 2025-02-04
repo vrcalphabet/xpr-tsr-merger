@@ -5,7 +5,6 @@ import { XprFile } from './xpr';
 
 /** トークンからツリーを生成するクラス */
 export default class XprBuilder {
-  
   /**
    * 与えられたトークンから、トークンツリーを作成します。
    * @param tokens トークンの配列
