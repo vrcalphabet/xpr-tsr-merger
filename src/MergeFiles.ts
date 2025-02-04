@@ -77,11 +77,23 @@ export default class MergeFiles {
   private setPath(): void {
     /** index.jsonが存在するフォルダパス */
     const basePath = path.dirname(this.indexFilePath);
+
     const directories = FileReader.getSubdirectories(basePath);
-    // ignoreに含まれているフォルダを除外
-    this.directories = directories.filter((directory) => !this.index.ignore.includes(directory));
+    this.directories = this.filterDirectories(directories);
+
     this.inputPath = path.join(basePath, this.index.input);
     this.outputPath = path.join(basePath, this.index.output);
+  }
+
+  /**
+   * ignoreに含まれているフォルダと隠しフォルダを除外します。
+   * @param directories ディレクトリのフォルダ名の配列
+   * @returns 特定のフォルダが除外されたフォルダ名の配列
+   */
+  private filterDirectories(directories: Array<string>) {
+    return directories.filter((directory) => {
+      !this.index.ignore.includes(directory) && !directory.startsWith('.');
+    });
   }
 
   /**
@@ -209,7 +221,7 @@ export default class MergeFiles {
     if (files === null) return null;
     return Object.fromEntries(files);
   }
-  
+
   /**
    * 現在のタイムスタンプを出力します。
    * @returns 正常に出力できたか
