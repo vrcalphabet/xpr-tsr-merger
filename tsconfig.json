@@ -8,6 +8,9 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "moduleResolution": "Node16",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }

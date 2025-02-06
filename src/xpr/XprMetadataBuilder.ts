@@ -1,9 +1,10 @@
-import { XprErrorMessageBlock, XprMetadata } from './xpr';
+import * as XprTypes from '../common/Xpr';
+import * as XprUtils from '../common/XprUtils';
 import XprTokens from './XprTokens';
 // eslint-disable-next-line @typescript-eslint/naming-convention
-import ERROR_MESSAGE from './XprErrorMessages';
-import REGEXP from './XprRegExp';
-import Console from '../Console';
+import ERROR_MESSAGE from '../common/XprErrorMessages';
+import REGEXP from '../common/XprRegExp';
+import Console from '../common/Console';
 
 /** トークンからメタデータのみのトークンツリーを作成するクラス */
 export default class XprMetadataBuilder {
@@ -28,7 +29,7 @@ export default class XprMetadataBuilder {
    * @param tokens トークンの配列
    * @returns ノードの配列、null: エラーが発生した場合
    */
-  public buildTree(tokens: XprTokens): XprMetadata | null {
+  public buildTree(tokens: XprTokens): XprTypes.XprMetadata | null {
     this.tokens = tokens;
 
     /** name識別子 */
@@ -79,7 +80,7 @@ export default class XprMetadataBuilder {
             name,
             includes,
             excludes,
-          } satisfies XprMetadata;
+          } satisfies XprTypes.XprMetadata;
       }
     }
   }
@@ -96,7 +97,7 @@ export default class XprMetadataBuilder {
   private parseToken<T>(
     current: T | null,
     parseFunc: () => T | null,
-    ERROR_BLOCK: XprErrorMessageBlock
+    ERROR_BLOCK: XprUtils.XprErrorMessageGroup
   ): T | null {
     // 非nullの場合は値が既に設定されているということなので、エラー
     if (current !== null) {
@@ -168,7 +169,7 @@ export default class XprMetadataBuilder {
    */
   private parseDirectories(
     lengthCheck: boolean,
-    ERROR_BLOCK: XprErrorMessageBlock
+    ERROR_BLOCK: XprUtils.XprErrorMessageGroup
   ): Array<string> | null {
     this.nextToken();
     // 次のトークンがブロックの始まりでなければエラー
@@ -203,7 +204,7 @@ export default class XprMetadataBuilder {
    * @param ERROR_BLOCK エラーメッセージのブロック
    * @returns 1つのディレクトリパス
    */
-  private parseDirectory(ERROR_BLOCK: XprErrorMessageBlock): string | null {
+  private parseDirectory(ERROR_BLOCK: XprUtils.XprErrorMessageGroup): string | null {
     // 次のトークンがない場合はエラー
     if (this.token === null) {
       this.error(ERROR_BLOCK.MISSING_DIRECTORY);

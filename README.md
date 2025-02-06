@@ -17,14 +17,14 @@ out/
 src/
 - index.json
 - home/
-  - rules.xpr
+  - rule.xpr
   - trans.json
 - settings/
-  - rules.xpr
+  - rule.xpr
   - trans.json
 ```
 
-各フォルダ内は`rules.xpr`と`trans.json`を配置します。前者は翻訳対象要素の xpath が定義されたファイル、後者は翻訳前テキストと翻訳後テキストの対応表を定義したファイルです。この 2 つのファイル名は変更してはいけません。\
+各フォルダ内は`rule.xpr`と`trans.json`を配置します。前者は翻訳対象要素の xpath が定義されたファイル、後者は翻訳前テキストと翻訳後テキストの対応表を定義したファイルです。この 2 つのファイル名は変更してはいけません。\
 このフォルダは、各ページごとや各機能ごとなどに分けることができます。
 
 統合方法（例）：
@@ -38,4 +38,4 @@ src/
 
 `index.json`を開きフォーカスした上で、`extension.mergeXprAndTsrFiles`（翻訳用ファイルの統合）を実行します。
 
-`../out/`に統合された`rules.json`と`translations.json`、コマンドを実行した時間`lastUpdate.txt`が作成されます。
+`../out/`に統合された`rule.json`と`translations.json`、コマンドを実行した時間`lastUpdate.txt`が作成されます。

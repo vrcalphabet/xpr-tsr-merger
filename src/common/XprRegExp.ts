@@ -1,4 +1,4 @@
-import { XprRegExp } from './xpr';
+import * as XprUtils from './XprUtils';
 
 export default {
   COMMENT: /%-.*?-%|%.*?(?=\n)/gs,
@@ -8,4 +8,4 @@ export default {
   XPATH: /^\/.*$/,
   MULTI: /^\*$/,
   ATTRIBUTE: /^\[[a-zA-Z0-9-]+\]$/,
-} as const satisfies XprRegExp;
+} as const satisfies XprUtils.XprRegExp;

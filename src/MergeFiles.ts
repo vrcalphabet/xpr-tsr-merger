@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 import path from 'path';
-import Console from './Console';
-import { IndexDefinition } from '.';
-import IndexValidator from './IndexValidator';
-import FileReader from './FileReader';
+import Console from './common/Console';
+import { IndexDefinition } from './common/IndexDefinition';
+import IndexValidator from './common/IndexValidator';
+import FileReader from './common/FileReader';
 import XprConverter from './xpr/XprConverter';
-import { XprFile } from './xpr/xpr';
+import * as XprTypes from './common/Xpr';
 
 /** .xprファイルと翻訳定義ファイルをそれぞれ統合するクラス */
 export default class MergeFiles {
@@ -41,7 +41,7 @@ export default class MergeFiles {
     success = this.setIndex();
     if (!success) return;
     success = this.setPath();
-    success = this.mergeRules();
+    success = this.mergeRule();
     if (!success) return;
     success = this.mergeTrans();
     if (!success) return;
@@ -132,29 +132,29 @@ export default class MergeFiles {
   }
 
   /**
-   * basePath直下のディレクトリの全てのrules.xprを統合し、rules.jsonを作成します。
+   * basePath直下のディレクトリの全てのrule.xprを統合し、rule.jsonを作成します。
    * @returns 正常に書き込めたか
    */
-  private mergeRules(): boolean {
-    /** 各rules.xprファイルの配列 */
-    const files = this.readRules();
+  private mergeRule(): boolean {
+    /** 各rule.xprファイルの配列 */
+    const files = this.readRule();
     if (files === null) return false;
 
     /** フォーマットされたjson */
     const content = this.stringifyJSON(files);
-    return this.writeFile('rules.json', content);
+    return this.writeFile('rule.json', content);
   }
 
   /**
-   * 指定したフォルダ内の全てのrules.xprファイルを読み込みます。
-   * @returns rules.xprファイルの配列、エラーの場合はnull
+   * 指定したフォルダ内の全てのrule.xprファイルを読み込みます。
+   * @returns rule.xprファイルの配列、エラーの場合はnull
    */
-  private readRules(): Array<XprFile> | null {
-    /** 各rules.xprファイルの配列 */
+  private readRule(): XprTypes.Xpr | null {
+    /** 各rule.xprファイルの配列 */
     const files = FileReader.readFileInFolders(
       this.inputPath,
       this.directories,
-      'rules.xpr',
+      'rule.xpr',
       (content, folder) => {
         if (content === null) {
           Console.error(`フォルダ ${folder} に \`trans.json\` が存在しません`);
@@ -162,7 +162,7 @@ export default class MergeFiles {
         }
         return XprConverter.convert(content);
       }
-    ) as Array<XprFile> | null;
+    ) as XprTypes.Xpr | null;
 
     if (files === null) return null;
     return files;
@@ -175,8 +175,8 @@ export default class MergeFiles {
    * @returns 正常に書き込めたか
    */
   private writeFile(fileName: string, content: string): boolean {
-    const rulesPath = path.join(this.outputPath, fileName);
-    const success = FileReader.writeFileContent(rulesPath, content);
+    const rulePath = path.join(this.outputPath, fileName);
+    const success = FileReader.writeFileContent(rulePath, content);
     if (!success) {
       Console.error(`\`${fileName}\`に書き込めませんでした`);
     }

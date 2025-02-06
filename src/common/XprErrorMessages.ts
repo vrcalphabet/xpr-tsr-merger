@@ -1,4 +1,4 @@
-import { XprErrorMessageGroup } from './xpr';
+import * as XprUtils from './XprUtils';
 
 export default {
   GENERAL: {
@@ -33,4 +33,4 @@ export default {
     MISSING_KEY_OR_XPATH: 'keyまたはxpathが指定されていません。',
     MISSING_NODE: 'ネストの中に最低でも1つのノードが必要です。',
   },
-} as const satisfies XprErrorMessageGroup;
+} as const satisfies XprUtils.XprErrorMessages;

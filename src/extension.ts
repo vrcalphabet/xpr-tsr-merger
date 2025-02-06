@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import MergeFiles from './MergeFiles';
-import Console from './Console';
+import Console from './common/Console';
 
 export function activate() {
   vscode.commands.registerCommand('extension.mergeXprAndTsrFiles', () => {

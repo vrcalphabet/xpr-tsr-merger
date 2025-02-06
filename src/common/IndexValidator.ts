@@ -1,4 +1,4 @@
-import { IndexDefinition } from '.';
+import { IndexDefinition } from './IndexDefinition';
 import Console from './Console';
 import { z } from 'zod';
 

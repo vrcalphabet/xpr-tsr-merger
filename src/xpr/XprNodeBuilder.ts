@@ -1,9 +1,10 @@
 import XprTokens from './XprTokens';
 // eslint-disable-next-line @typescript-eslint/naming-convention
-import ERROR_MESSAGE from './XprErrorMessages';
-import REGEXP from './XprRegExp';
-import Console from '../Console';
-import { XprChildNode, XprNodes, XprParentNode, XprValueType } from './xpr';
+import ERROR_MESSAGE from '../common/XprErrorMessages';
+import REGEXP from '../common/XprRegExp';
+import Console from '../common/Console';
+import * as XprTypes from '../common/Xpr';
+import * as XprUtils from '../common/XprUtils';
 
 /** トークンからノードデータのみのトークンツリーを作成するクラス */
 export default class XprNodeBuilder {
@@ -28,15 +29,15 @@ export default class XprNodeBuilder {
    * @param tokens トークンの配列
    * @returns ノードの配列、null: エラーが発生した場合
    */
-  public buildTree(tokens: XprTokens): XprNodes | null {
+  public buildTree(tokens: XprTokens): XprTypes.XprNodes | null {
     this.tokens = tokens;
-    const nodes: XprNodes = [];
+    const nodes: XprTypes.XprNodes = { nodes: [] };
 
     while (true) {
       /** 一つの子ノード、もしくは親ノード */
       const node = this.recursive(false);
       if (node === null) return null;
-      nodes.push(node);
+      nodes.nodes.push(node);
 
       const token = this.peekToken();
       if (token === null) break;
@@ -49,7 +50,7 @@ export default class XprNodeBuilder {
    * @param baseMulti マルチセレクタの初期値
    * @returns ノードの配列、null: エラーが発生した場合
    */
-  private recursive(baseMulti: boolean): XprParentNode | XprChildNode | null {
+  private recursive(baseMulti: boolean): XprTypes.XprParentNode | XprTypes.XprChildNode | null {
     /** キーの一時保存用変数 */
     let key: string | null = null;
     /** XPathの一時保存用変数 */
@@ -59,7 +60,7 @@ export default class XprNodeBuilder {
     /** 属性名の一時保存用変数 */
     let attribute: string | null = null;
     /** ノードの一時保存用変数 */
-    const nodes: Array<XprParentNode | XprChildNode> = [];
+    const nodes: Array<XprTypes.XprParentNode | XprTypes.XprChildNode> = [];
 
     while (true) {
       this.nextToken();
@@ -75,21 +76,21 @@ export default class XprNodeBuilder {
 
       switch (type) {
         // 通常ノード
-        case XprValueType.KEY:
+        case XprUtils.XprValueType.KEY:
           key = this.token;
           break;
-        case XprValueType.XPATH:
+        case XprUtils.XprValueType.XPATH:
           xpath = this.token;
           break;
-        case XprValueType.MULTI:
+        case XprUtils.XprValueType.MULTI:
           multi = true;
           break;
-        case XprValueType.ATTRIBUTE:
+        case XprUtils.XprValueType.ATTRIBUTE:
           // 属性は[]で囲まれているので、先頭と末尾の文字を削除
           attribute = this.token.slice(1, -1);
           break;
         // 特殊記号
-        case XprValueType.BRACKET_OPEN:
+        case XprUtils.XprValueType.BRACKET_OPEN:
           while (true) {
             // 入れ子を探索
             const node = this.recursive(multi);
@@ -101,7 +102,7 @@ export default class XprNodeBuilder {
             if (token === '}') break;
           }
           break;
-        case XprValueType.BRACKET_CLOSE:
+        case XprUtils.XprValueType.BRACKET_CLOSE:
           if (key === null || xpath === null) {
             this.error(ERROR_MESSAGE.NODE.MISSING_KEY_OR_XPATH);
             return null;
@@ -115,8 +116,8 @@ export default class XprNodeBuilder {
             key: key,
             xpath: xpath,
             nodes: nodes,
-          } satisfies XprParentNode;
-        case XprValueType.COMMA:
+          } satisfies XprTypes.XprParentNode;
+        case XprUtils.XprValueType.COMMA:
           if (xpath === null) {
             this.error(ERROR_MESSAGE.NODE.MISSING_XPATH);
             return null;
@@ -127,7 +128,7 @@ export default class XprNodeBuilder {
             xpath: xpath,
             multi: multi,
             attribute: attribute,
-          } satisfies XprChildNode;
+          } satisfies XprTypes.XprChildNode;
       }
     }
   }
@@ -136,27 +137,27 @@ export default class XprNodeBuilder {
    * トークンの種類を取得します。
    * @returns トークンの種類、null: 無効なトークンの場合
    */
-  private checkType(): XprValueType | null {
+  private checkType(): XprUtils.XprValueType | null {
     if (this.validateRegex(REGEXP.KEY)) {
-      return XprValueType.KEY;
+      return XprUtils.XprValueType.KEY;
     }
     if (this.validateRegex(REGEXP.XPATH)) {
-      return XprValueType.XPATH;
+      return XprUtils.XprValueType.XPATH;
     }
     if (this.validateRegex(REGEXP.MULTI)) {
-      return XprValueType.MULTI;
+      return XprUtils.XprValueType.MULTI;
     }
     if (this.validateRegex(REGEXP.ATTRIBUTE)) {
-      return XprValueType.ATTRIBUTE;
+      return XprUtils.XprValueType.ATTRIBUTE;
     }
     if (this.validateToken('{')) {
-      return XprValueType.BRACKET_OPEN;
+      return XprUtils.XprValueType.BRACKET_OPEN;
     }
     if (this.validateToken('}')) {
-      return XprValueType.BRACKET_CLOSE;
+      return XprUtils.XprValueType.BRACKET_CLOSE;
     }
     if (this.validateToken(',')) {
-      return XprValueType.COMMA;
+      return XprUtils.XprValueType.COMMA;
     }
 
     this.error(ERROR_MESSAGE.GENERAL.INVALID_TOKEN);

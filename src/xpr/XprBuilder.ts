@@ -1,7 +1,7 @@
 import XprTokens from './XprTokens';
 import XprMetadataBuilder from './XprMetadataBuilder';
 import XprNodeBuilder from './XprNodeBuilder';
-import { XprFile } from './xpr';
+import * as XprTypes from '../common/Xpr';
 
 /** トークンからツリーを生成するクラス */
 export default class XprBuilder {
@@ -10,7 +10,7 @@ export default class XprBuilder {
    * @param tokens トークンの配列
    * @returns トークンツリー、null: エラーが発生した場合
    */
-  public static buildTree(tokens: XprTokens): XprFile | null {
+  public static buildTree(tokens: XprTokens): XprTypes.XprGroup | null {
     /** メタデータのツリーを構築する */
     const metadataBuilder = XprMetadataBuilder.getInstance();
     /** ノードのツリーを構築する */
@@ -24,9 +24,6 @@ export default class XprBuilder {
     if (nodes === null) return null;
 
     // メタデータとノードを結合
-    return {
-      ...metadata,
-      nodes,
-    } satisfies XprFile;
+    return Object.assign(metadata, nodes) satisfies XprTypes.XprGroup;
   }
 }
