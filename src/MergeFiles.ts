@@ -77,12 +77,11 @@ export default class MergeFiles {
   private setPath(): void {
     /** index.jsonが存在するフォルダパス */
     const basePath = path.dirname(this.indexFilePath);
-
-    const directories = FileReader.getSubdirectories(basePath);
-    this.directories = this.filterDirectories(directories);
-
     this.inputPath = path.join(basePath, this.index.input);
     this.outputPath = path.join(basePath, this.index.output);
+
+    const directories = FileReader.getSubdirectories(this.inputPath);
+    this.directories = this.filterDirectories(directories);
   }
 
   /**
