@@ -182,7 +182,7 @@ export default class XprNodeBuilder {
     return this.token !== null && regex.test(this.token);
   }
 
-  // 次のトークンを取得します。ポインタが移動することはありません。
+  /** 次のトークンを取得します。ポインタが移動することはありません。 */
   private peekToken(): string | null {
     return this.tokens.peekToken();
   }
