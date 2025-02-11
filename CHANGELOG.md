@@ -26,3 +26,7 @@
 - `trans.json`の各キーをフォルダ名を大文字にしたものに変更した
 - `rule.json`および`trans.json`に変更がない場合は`lastUpdate.txt`（最終更新時刻）を更新しないようにした
 - `src/MergeFiles.ts`を機能分割した
+
+## 2.0.1 (2025/02/11)
+
+- `esbuild`アップデートに伴った`index.js`の変更
