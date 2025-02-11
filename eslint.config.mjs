@@ -24,7 +24,7 @@ export default [
           format: ['camelCase', 'PascalCase'],
         },
       ],
-
+      '@typescript-eslint/explicit-member-accessibility': ['error', { accessibility: 'explicit' }],
       eqeqeq: 'warn',
       'no-throw-literal': 'warn',
       semi: 'warn',
