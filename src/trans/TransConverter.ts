@@ -10,11 +10,23 @@ export default class TransConverter {
    */
   public static convert(input: string, directory: string): TsrTypes.TsrEntry | null {
     try {
-      // jsonの構文が正しいかを確認するため、一旦JSON.parseする必要がある
-      return [directory.toUpperCase(), JSON.parse(input)] satisfies TsrTypes.TsrEntry;
+      // 翻訳ソースを小文字にするため、一旦JSON.parseする必要がある
+      const tsr = JSON.parse(input);
+      this.recursive(tsr);
+      return [directory.toUpperCase(), tsr] satisfies TsrTypes.TsrEntry;
     } catch (e) {
       Console.error(`フォルダ'${directory}'の\`trans.json\`の構文が不正です。`);
       return null;
+    }
+  }
+
+  private static recursive(tsr: TsrTypes.Tsr): void {
+    for (const prop in tsr) {
+      if (typeof tsr[prop] === 'string') {
+        tsr[prop] = tsr[prop].trim().toLowerCase();
+      } else {
+        this.recursive(tsr[prop]);
+      }
     }
   }
 }
