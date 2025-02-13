@@ -23,7 +23,10 @@ export default class TransConverter {
   private static recursive(tsr: TsrTypes.Tsr): void {
     for (const prop in tsr) {
       if (typeof tsr[prop] === 'string') {
-        tsr[prop] = tsr[prop].trim().toLowerCase();
+        const source = prop.trim().toLowerCase();
+        const trans = tsr[prop];
+        delete tsr[prop];
+        tsr[source] = trans;
       } else {
         this.recursive(tsr[prop]);
       }
