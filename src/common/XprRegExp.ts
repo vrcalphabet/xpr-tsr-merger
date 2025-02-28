@@ -1,7 +1,7 @@
 import * as XprUtils from './XprUtils';
 
 export default {
-  COMMENT: /%-.*?-%|%.*?(?=\n)/gs,
+  COMMENT: /%-.*?-%|%.*?(?=\n|$)/gs,
   IDENTIFIER: /^[A-Z0-9_]+$/,
   DIRECTORY_PATH: /^\/.*$/,
   KEY: /^[A-Z0-9_]+$/,
