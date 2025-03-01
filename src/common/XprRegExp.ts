@@ -5,7 +5,7 @@ export default {
   IDENTIFIER: /^[A-Z0-9_]+$/,
   DIRECTORY_PATH: /^\/.*$/,
   KEY: /^[A-Z0-9_]+$/,
-  XPATH: /^\/.*$/,
+  XPATH: /^(?:::)?\/.*$/,
   MULTI: /^\*$/,
   ATTRIBUTE: /^\[[a-zA-Z0-9-]+\]$/,
 } as const satisfies XprUtils.XprRegExp;
