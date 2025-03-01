@@ -73,7 +73,7 @@
         },
         {
           "name": "node.xpath.xpr",
-          "match": "\\s+(/[^\\s]+)",
+          "match": "\\s+((?:::)?/[^\\s]+)",
           "captures": {
             "1": { "name": "string.unquoted.xpr" }
           },
