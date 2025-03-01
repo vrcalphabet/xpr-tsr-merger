@@ -59,6 +59,8 @@ export default class XprNodeBuilder {
     let multi: boolean = baseMulti;
     /** 属性名の一時保存用変数 */
     let attribute: string | null = null;
+    /** カスタムスタイル */
+    let custom: string | null = null;
     /** ノードの一時保存用変数 */
     const nodes: Array<XprTypes.XprParentNode | XprTypes.XprChildNode> = [];
 
@@ -88,6 +90,10 @@ export default class XprNodeBuilder {
         case XprUtils.XprValueType.ATTRIBUTE:
           // 属性は[]で囲まれているので、先頭と末尾の文字を削除
           attribute = this.token.slice(1, -1);
+          break;
+        case XprUtils.XprValueType.CUSTOM:
+          // カスタムスタイルは''で囲まれているので、先頭と末尾の文字を削除
+          custom = ';' + this.token.slice(1, -1);
           break;
         // 特殊記号
         case XprUtils.XprValueType.BRACKET_OPEN:
@@ -128,6 +134,7 @@ export default class XprNodeBuilder {
             xpath: xpath,
             multi: multi,
             attribute: attribute,
+            custom: custom,
           } satisfies XprTypes.XprChildNode;
       }
     }
@@ -149,6 +156,9 @@ export default class XprNodeBuilder {
     }
     if (this.validateRegex(REGEXP.ATTRIBUTE)) {
       return XprUtils.XprValueType.ATTRIBUTE;
+    }
+    if (this.validateRegex(REGEXP.CUSTOM)) {
+      return XprUtils.XprValueType.CUSTOM;
     }
     if (this.validateToken('{')) {
       return XprUtils.XprValueType.BRACKET_OPEN;

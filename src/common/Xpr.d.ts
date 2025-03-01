@@ -19,6 +19,7 @@ export type XprChildNode = {
   xpath: string;
   multi: boolean;
   attribute: string | null;
+  custom: string | null;
 };
 
 export type XprPathList = Array<string>;

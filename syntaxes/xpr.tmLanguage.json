@@ -86,6 +86,13 @@
             "1": { "name": "constant.numeric.xpr" }
           },
           "patterns": []
+        },
+        {
+          "name": "node.custom.xpr",
+          "match": "('[^' ]+')",
+          "captures": {
+            "1": { "name": "support.type.property-name" }
+          }
         }
       ]
     }

@@ -3,7 +3,7 @@
   "displayName": "xpr-tsr-merger",
   "description": "翻訳関連ファイルの統合用の拡張機能",
   "publisher": "vrcalphabet",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "engines": {
     "vscode": "^1.96.0"
   },

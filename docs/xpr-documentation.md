@@ -42,6 +42,9 @@ xpath を定義するためのファイル（xpath rule definition file）です
 - `attribute`\
   要素のテキストを別の言語に置換するときに、指定した属性の値を置換するようにします。\
   省略時は`.textContent = 値`で、`[属性名]`とすると`.setAttribute(属性名, 値)`となります。
+- `customCSS`\
+  要素にカスタムなスタイルを適用します。スタイルはシングルクォーテーション`'`で囲み、`プロパティ:値`の形式（例：`'width:150px'`）で指定します。\
+  プロパティが複数ある場合はセミコロンで区切り（例：`'width:150px;height:100px'`）スペースを含めてはいけません。
 
 ## 基本構文
 
@@ -75,8 +78,9 @@ xpath を定義するためのファイル（xpath rule definition file）です
 - ノードの定義
   - 子ノード (`node`変数と同義です)
     xpath で要素を選択する一つのノードです。親がいる場合、親ノードで定義されている xpath と multiSelect を継承します。\
-    親がいない子ノードは`key`を省略することはできません。
-    - `[key] <xpath> [multiSelect] [attribute],`
+    親がいない子ノードは`key`を省略することはできません。\
+    テキストノード`/text()`にcustomCSSを指定することはできません。ただし、コンバータはエラーを出しません。
+    - `[key] <xpath> [multiSelect] [attribute] [customCSS],`
   - 親ノード（ネスト可能で、子を持つことができるノード）
     指定した xpath の中に複数の子ノードを含めることができます。\
     その際、子ノードは親ノードで定義されている xpath と multiSelect の値を継承します。

@@ -8,4 +8,5 @@ export default {
   XPATH: /^(?:::)?\/.*$/,
   MULTI: /^\*$/,
   ATTRIBUTE: /^\[[a-zA-Z0-9-]+\]$/,
+  CUSTOM: /^'[^' ]+'$/,
 } as const satisfies XprUtils.XprRegExp;

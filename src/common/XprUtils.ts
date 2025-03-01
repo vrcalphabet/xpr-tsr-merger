@@ -3,6 +3,7 @@ export enum XprValueType {
   XPATH,
   MULTI,
   ATTRIBUTE,
+  CUSTOM,
   /** 波括弧の左(`{`) */
   BRACKET_OPEN,
   /** 波括弧の右(`}`) */
