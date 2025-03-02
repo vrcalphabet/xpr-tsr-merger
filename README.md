@@ -39,3 +39,9 @@ src/
 `index.json`を開きフォーカスした上で、`extension.mergeXprAndTsrFiles`（翻訳用ファイルの統合）を実行します。
 
 `../out/`に統合された`rule.json`と`translations.json`、コマンドを実行した時間`lastUpdate.txt`が作成されます。
+
+## シンタックスハイライト
+拡張機能を入れることでxprファイルの可読性が上がります。
+
+![image](https://github.com/user-attachments/assets/4db19d4c-0e24-432a-a52d-e3813daf7ccb)\
+![image](https://github.com/user-attachments/assets/d35d0271-9613-4bb9-8c3b-66c94aee3e75)
