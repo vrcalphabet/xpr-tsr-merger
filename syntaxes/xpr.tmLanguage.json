@@ -8,14 +8,14 @@
       "patterns": [
         {
           "name": "comment.line.percent.xpr",
-          "begin": "%[^-]",
+          "begin": "(?:^|\\s)%\\s[^-]",
           "end": "$",
           "patterns": []
         },
         {
           "name": "comment.block.xpr",
-          "begin": "%-",
-          "end": "-%",
+          "begin": "(?:^|\\s)%-\\s",
+          "end": "\\s-%(?:\\s|$)",
           "patterns": []
         }
       ]
